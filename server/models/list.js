@@ -12,6 +12,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      List.belongsTo(models.User)
     }
   };
   List.init({
@@ -54,6 +55,9 @@ module.exports = (sequelize, DataTypes) => {
           msg: `Due date field must be filled!`
         }
       }
+    },
+    UserId: {
+      type: DataTypes.INTEGER
     }
   }, {
     sequelize,
