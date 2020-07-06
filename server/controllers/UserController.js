@@ -27,11 +27,11 @@ class UserController {
 
     static login(req, res) {
         let user = User.dataForm(req.body)
-        
+
         User.findOne({where:{email: user.email}})
         .then(data => {
             if (!data) {
-                res.status(404).json({message: `Invalid Email or Password!`})
+                res.status(400).json({message: `Invalid Email or Password!`})
             } else {
                 if (bcrypt.compareSync(user.password, data.password)) {
                     const token = jwt.sign({
@@ -40,7 +40,7 @@ class UserController {
                     }, process.env.SECRET)
                     res.status(200).json({access_token: token})
                 } else {
-                    res.status(404).json({message: `Invalid Email or Password!`})
+                    res.status(400).json({message: `Invalid Email or Password!`})
                 }
             }
         })

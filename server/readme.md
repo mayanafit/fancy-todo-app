@@ -2,6 +2,67 @@
 
 Todo App here to list all your to-do list in interactive way. We use RESTful API with JSON formatted responses.
 
+## Users Routes
+
+POST /users/register : Create new user
+
+    - Request Header
+        Not required.
+
+    - Request Body
+        {
+            "email": "<user's email>",
+            "password": "<user's password>"
+        }
+    
+    - Response 201: Created
+        {
+            "id": <given id by system>,
+            "email": "<posted user's email>",
+            "password": "<posted user's password>",
+            "createdAt": "<date given by system>",
+            "updatedAt": "<date given by system>"
+        }
+   
+    - Response 400: Bad Request
+        {
+            <list of validation errors>
+        }
+   
+    - Response 500: Internal server error
+        {
+            message: `Internal Server Error. <show error>`}
+        }
+
+POST /users/login : login to user's account
+
+    - Request Header
+        Not required.
+
+    - Request Body
+        {
+            "email": "<user's email>",
+            "password": "<user's password>"
+        }
+    
+    - Response 200: OK
+        {
+            "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJtYXlhbmFAZW1haWwuY29tIiwiaWF0IjoxNTk0MDQ5MTc4fQ.aK3W9qlca2bdtKzhPtzLiSWALWaHRnypDnaQu9Al8u4"
+        }
+   
+    - Response 400: Bad Request
+        {
+             message: `Invalid Email or Password!`
+        }
+    
+    - Response 500: Internal server error
+        {
+            message: `Internal Server Error. <show error>`}
+        }
+
+
+## Todos Routes
+
 POST /todos : Create new to-do list
 
     - Request Header
