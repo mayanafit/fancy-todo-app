@@ -17,25 +17,6 @@ const authentication =  async (req, res, next) => {
     }
 }
 
-const showAuthorization = async (req, res, next) => {
-    let errorMessage = {
-        name: `ValidationError`,
-        statusCode: 400,
-        message: `forbidden access!`
-    }
-    let UserId = +req.userData.id
-    try {
-        let todo = await List.findOne({where: {UserId}})
-        if (todo) {
-            next()
-        } else {
-            throw errorMessage
-        }
-    } catch(err) {
-        next(err)
-    }
-}
-
 const authorization = async (req, res, next) => {
     let UserId = +req.userData.id
     let id = +req.params.id
@@ -61,4 +42,4 @@ const authorization = async (req, res, next) => {
     }
 }
 
-module.exports = {authentication, authorization, showAuthorization}
+module.exports = {authentication, authorization}
