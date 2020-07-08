@@ -2,8 +2,8 @@
 const {
   Model
 } = require('sequelize');
-const bcrypt = require(`bcrypt`)
-const saltRounds = 10;
+const {hashPassword} = require(`../helpers/bcrypt`)
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -29,39 +29,43 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
       validate: {
         isEmail: {
           args: true,
           msg: `Email field must be in email format! e.g: yourname@example.com`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Email field can't be empty!`
+        },
+        notNull: {
+          args: true,
+          msg: `Email is required!`
         }
       }
-    },
+    },  
     password: {
       type: DataTypes.STRING,
       allowNull: false,
       validate: {
         notNull: {
           args: true,
-          msg: `Password must be filled!`
+          msg: `Password is required!`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Password field can't be empty!`
         }
       }
     }
   }, {
     sequelize,
-    modelName: 'User',
-    validate: {
-      emptyField() {
-        if(this.email === `` || this.password === ``) {
-          throw new Error (`All field must be filled!`)
-        }
-      }
-    }
+    modelName: 'User'
   });
 
   User.beforeCreate((instance, option) => {
-    const salt = bcrypt.genSaltSync(saltRounds);
-    const hash = bcrypt.hashSync(instance.password, salt)
-    instance.password = hash
+    instance.password = hashPassword(instance)
   })
   return User;
 };

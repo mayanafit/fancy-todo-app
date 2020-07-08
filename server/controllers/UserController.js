@@ -1,51 +1,52 @@
 const { User } = require(`../models`)
-const bcrypt = require(`bcrypt`)
-const jwt = require('jsonwebtoken')
+const {encode} = require('../helpers/jwt')
+const {comparePassword} = require(`../helpers/bcrypt`)
+const sendEmail = require(`../helpers/mailgun`)
 
 class UserController {
 
-    static register(req, res) {
+    static register(req, res, next) {
         let newUser = User.dataForm(req.body)
-
         User.create(newUser)
         .then(data => {
+            let subject = `Successfully Registered to Todo-Fancy!`
+            let text = `Welcome ${data.email} to Todo-App! Go create your to-do list to help organizing your daily life!`
+            sendEmail(data.email, subject, text)
             res.status(201).json(data)
         })
         .catch(err => {
-            if (err.name === `SequelizeValidationError` || err.name === `SequelizeDatabaseError`) {
-                let errors = []
-                err.errors.forEach(error => {
-                    errors.push(error.message)
-                });
-                res.status(400).json(errors)
-            } else {
-                res.status(500).json({message: `Internal Server Error. ${err}`})
-            }
+            next(err)
         })
 
     }
 
-    static login(req, res) {
+    static login(req, res, next) {
         let user = User.dataForm(req.body)
+
+        let errorMessage = {
+            name: `ValidationError`,
+            statusCode: 400,
+            message: `Invalid Email or Password. Please check again.`
+        }
 
         User.findOne({where:{email: user.email}})
         .then(data => {
             if (!data) {
-                res.status(400).json({message: `Invalid Email or Password!`})
+                throw errorMessage
             } else {
-                if (bcrypt.compareSync(user.password, data.password)) {
-                    const token = jwt.sign({
+                if (comparePassword(user, data)) {
+                    const token = encode({
                         id: data.id,
                         email: data.email
-                    }, process.env.SECRET)
+                    })
                     res.status(200).json({access_token: token})
                 } else {
-                    res.status(400).json({message: `Invalid Email or Password!`})
+                    throw errorMessage
                 }
             }
         })
         .catch(err => {
-            res.status(500).json({message: `Internal Server Error. ${err}`})
+            next(err)
         })
     }
 }

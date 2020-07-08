@@ -70,6 +70,7 @@ POST /todos : Create new to-do list
             "access_token":"<access token>"
         }
 
+
     - Request Body
         {
             "title": "<To-do title>",

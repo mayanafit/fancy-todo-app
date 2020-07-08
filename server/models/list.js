@@ -22,7 +22,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: `Title field must be filled!`
+          msg: `Title is required!`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Title field can't be empty!`
         }
       }
     },
@@ -32,7 +36,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: `Description field must be filled!`
+          msg: `Description is required!`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Description field can't be empty!`
         }
       }
     },
@@ -42,7 +50,11 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: `Status field must be filled!`
+          msg: `Status is required!`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Status field can't be empty!`
         }
       }
     },
@@ -52,7 +64,15 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         notNull: {
           args: true,
-          msg: `Due date field must be filled!`
+          msg: `Due date is required!`
+        },
+        notEmpty: {
+          args: true,
+          msg: `Due date field can't be empty!`
+        },
+        isDate: {
+          args: true,
+          msg: `Please use date format MM/DD/YYYY or YYYY/MM/DD`
         }
       }
     },
@@ -61,14 +81,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'List',
-    validate: {
-      emptyField() {
-        if (this.title === `` || this.description === `` || this.status === `` || this.due_date === ``) {
-          throw new Error (`All field must be filled!`)
-        }
-      }
-    }
+    modelName: 'List'
   });
   return List;
 };
