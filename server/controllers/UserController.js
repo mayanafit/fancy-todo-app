@@ -2,6 +2,7 @@ const { User } = require(`../models`)
 const {encode} = require('../helpers/jwt')
 const {comparePassword} = require(`../helpers/bcrypt`)
 const sendEmail = require(`../helpers/mailgun`)
+const {OAuth2Client} = require('google-auth-library');
 
 class UserController {
 
@@ -48,6 +49,45 @@ class UserController {
         .catch(err => {
             next(err)
         })
+    }
+
+    static google(req, res, next) {
+        const id_token = req.body.id_token
+        const client = new OAuth2Client(process.env.CLIENTID);
+        let payload;
+        client.verifyIdToken({
+            idToken: id_token,
+            audience: process.env.CLIENTID  // Specify the CLIENT_ID of the app that accesses the backend
+            // Or, if multiple clients access the backend:
+            //[CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]
+        })
+        .then(ticket => {
+            payload = ticket.getPayload();
+            const userid = payload['sub'];
+            return User.findOne({where: {email: payload.email}})
+        })
+        .then(data => {
+            if (data) {
+                return data
+            } else {
+                let dataUser = {
+                    email: payload.email,
+                    password: `1234`
+                }
+                return User.create(dataUser)
+            }
+        })
+        .then(user => {
+            const token = encode({
+                id: user.id,
+                email: user.email
+            })
+            return res.status(200).json({access_token: token})
+        })
+        .catch(err => {
+            next(err)
+        })
+
     }
 }
 

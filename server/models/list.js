@@ -73,6 +73,10 @@ module.exports = (sequelize, DataTypes) => {
         isDate: {
           args: true,
           msg: `Please use date format MM/DD/YYYY or YYYY/MM/DD`
+        },
+        isAfter: {
+          args: new Date().toDateString(),
+          msg: `Due Date can be filled with Date after today.`
         }
       }
     },
