@@ -14,7 +14,7 @@ class TodoController {
         List.create(newList) 
         .then(data => {
             let subject = `Added New To-do list!`
-            let text = `You've succesfully added new to do list with detail:\n\nTitle: ${data.title}\nDescription: ${data.description}\nDue Date:${data.due_date}\n\nGo complete your to-do list before the deadline!\n\nCheers,\nFancy To-do.`
+            let text = `You've succesfully added new to do list with detail:\n\nTitle: ${data.title}\nDescription: ${data.description}\nDue Date: ${new Date(data.due_date).toDateString()}\n\nGo complete your to-do list before the deadline!\n\nCheers,\nFancy To-do.`
             sendEmail(req.userData.email, subject, text)
             res.status(201).json(data)
         })
