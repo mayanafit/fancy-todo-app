@@ -10,8 +10,8 @@ class UserController {
         let newUser = User.dataForm(req.body)
         User.create(newUser)
         .then(data => {
-            let subject = `Successfully Registered to Todo-Fancy!`
-            let text = `Welcome ${data.email} to Todo-App! Go create your to-do list to help organizing your daily life!`
+            let subject = `Successfully Registered to Fancy To-do!`
+            let text = `Welcome ${data.email} to Fancy To-do! Go create your to-do list to help you organizing your daily life!\n\nCheers,\nFancy-Todo.`
             sendEmail(data.email, subject, text)
             res.status(201).json(data)
         })

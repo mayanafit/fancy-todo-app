@@ -3,159 +3,247 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="google-signin-client_id" content="676743939422-tp2frn97b1sh1s85u3fp2pcsnle85587.apps.googleusercontent.com">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-    <title>Fancy Todo!</title>
+    <meta name="google-signin-client_id" content="676743939422-tp2frn97b1sh1s85u3fp2pcsnle85587.apps.googleusercontent.com">
+    <title>Welcome!</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Russo+One&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
-  <body>
-    <nav id="navbar" class="navbar fixed-top navbar-expand-lg navbar-dark bg-info">
-        <a class="navbar-brand mr-auto" href="#">To-do Fancy</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-            <div>
-                <button id="login-button" class="btn btn-success my-2 my-sm-0" onclick="formLogin(event)">Login</button>
-            </div>
-            <div >
-                <button id="logout-button" class="btn btn-danger my-2 my-sm-0" onclick="logOut()">Logout</button>
-            </div>
-    </nav>
-        <!-- homepage -->
-        <div id="homepage" class="pt-5">
-            <h1 class= "mt-5" style="text-align: center;">Todo Fancy!</h1>
-            <p style="text-align: center;">Where you can organize your daily life.</p>
-            <div style="text-align: center; margin-top: 20px;">
-                <a class="btn btn-success my-2 my-sm-0" href="#" role="button" onclick="formLogin(event)">Login</a>&nbsp&nbsp
-                <a class="btn btn-primary my-2 my-sm-0" href="#" role="button" onclick="formRegister(event)">Register</a>
-            </div>
-        </div>
-        <!-- form login -->
-        <div id="form-login" class="container-md text-light pt-5 mt-5">
-            <div class="row">
-                <div class="col bg-secondary p-4 rounded-lg">
-                    <h1>Login Page</h1>
-                    <div id="alertLogin"></div>
-                    <form onsubmit="logIn(event)">
-                        <div class="form-group">
-                            <label for="loginEmail">Email address</label>
-                            <input type="email" class="form-control" id="loginEmail" aria-describedby="emailHelp">
-                            <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="loginPassword">Password</label>
-                            <input type="password" class="form-control" id="loginPassword">
-                        </div>
-                        <button type="submit" class="btn btn-success btn-lg mt-3">Login</button>
-                    </form>
-                    <br>
-                    <p>Sign in through:</p>
-                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
-                    <br>
-                    <p><b>New user? Go register yourself here.</b> <a href="" role="button" class="btn btn-primary btn-sm" onclick="formRegister(event)">Sign Up</a></p>
-                </div>
-                <div class="col">
-                </div>
-              </div>
-        </div>
-        <!-- form Register -->
-        <div id="form-register" class="container-md text-light pt-5 mt-5">
-            <div class="row">
-                <div class="col bg-dark p-4 rounded-lg">
-                    <h1>Register Page</h1>
-                    <div id="alertRegister"></div>
-                    <form onsubmit="addUser(event)">
-                        <div class="form-group">
-                            <label for="registerEmail">Email address</label>
-                            <input type="email" class="form-control" id="registerEmail" aria-describedby="emailHelp">
-                            <small id="emailHelp" class="form-text">We'll never share your email with anyone else.</small>
-                        </div>
-                        <div class="form-group">
-                            <label for="registerPassword">Password</label>
-                            <input type="password" class="form-control" id="registerPassword">
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-lg mt-3">Register</button>
-                    </form>
-                    <br>
-                    <p><b>Already a part of To-do Fancy? login here</b> <a href="" class="btn btn-success btn-sm" role="button" onclick="formLogin(event)">Sign In</a></p>
-                </div>
-                <div class="col">
-                </div>
-              </div>
-        </div>
-        <!-- todo list -->
-        <div id="todo" class="container-sm pt-5">
-            <h1 class="my-4" style="text-align: center;">My Todo List!</h1>
-            <a href="#" class="btn btn-primary" role="button" onclick="addListForm()">Add to-do list</a>
-            <div id="todo-page" class="m-4"></div>
-        </div>
-        <!-- form add  -->
-        <div id="form-add-todo" class="container-md text-dark font-weight-bold pt-5 mb-5">
-            <h1 class="my-4" style="text-align: center;">Add New To-do List!</h1>
-            <div id="alertAdd"></div>
-            <a href="#" class="btn btn-secondary" role="button" onclick="listPage()">Back to List</a>
-            <br><br>
-            <form onsubmit="addTodo(event)">
-                <div class="form-group">
-                  <label for="Title">Title</label>
-                  <input type="text" name="title" class="form-control" id="Title" placeholder="e.g: Pet's Duty">
-                </div>
-                <div class="form-group">
-                  <label for="Description">Description</label>
-                  <textarea name="description" class="form-control" id="Description" placeholder="e.g: Cleaning cage, bath the pet, take to vet..." rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="Status">Status</label>
-                  <select name="status" class="form-control" id="Status">
-                    <option disabled selected>---select---</option>
-                    <option value="Complete">Complete</option>
-                    <option value="On Progress">On Progress</option>
-                    <option value="Uncomplete">Uncomplete</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                    <label for="due_date">Due_date</label>
-                    <input type="date" name="due_date" class="form-control" id="due_date">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg mt-3">Add To-do</button>
-              </form>
-        </div>
-        <!-- edit form -->
-        <div id="form-edit-todo" class="container-md text-dark font-weight-bold pt-5 mb-5">
-            <h1 class="my-4" style="text-align: center;">Edit To-do List!</h1>
-            <div id="alertEdit"></div>
-            <a href="#" class="btn btn-secondary" role="button" onclick="listPage()">Back to List</a>
-            <br><br>
-            <form onsubmit="editTodo(event)">
-                <div class="form-group">
-                  <label for="title">Title</label>
-                  <input type="text" name="title" class="form-control" id="title">
-                </div>
-                <div class="form-group">
-                  <label for="description">Description</label>
-                  <textarea name="description" class="form-control" id="description" placeholder="e.g: Cleaning cage, bath the pet, take to vet..." rows="3"></textarea>
-                </div>
-                <div class="form-group">
-                  <label for="status">Status</label>
-                  <select name="status" class="form-control" id="status">
-                    <option disabled selected>---select---</option>
-                    <option value="Complete">Complete</option>
-                    <option value="On Progress">On Progress</option>
-                    <option value="Uncomplete">Uncomplete</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                    <label for="Due_date">Due_date</label>
-                    <input type="date" name="due_date" class="form-control" id="Due_date">
-                </div>
-                <button type="submit" class="btn btn-primary btn-lg mt-3">Update To-do</button>
-              </form>
-        </div>
+  <body style="background-color: #FFED65; font-family: 'Roboto Condensed', sans-serif; height: 100%;"> 
 
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <nav id="navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: #6A8D73;">
+      <a style="font-family: 'Russo One', sans-serif; font-size: 20px;" class="navbar-brand text-light font-weight-bold" href="#">Fancy To-do <i class="fa fa-check"></i></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <div id="buttonAdd">
+              <a data-toggle="modal" data-target="#form-add" role="button" class="btn btn-warning btn-sm text-dark rounded-pill font-weight-bold"><i class="fa fa-plus"></i> Add To-do</a>
+            </div>
+          </li>
+          <li class="nav-item ml-1">
+            <div id="buttonHoliday">
+              <a role="button" class="btn btn-info btn-sm text-dark rounded-pill font-weight-bold" onclick="holiday()"><i class="fa fa-calendar"></i> Holiday</a>
+            </div>
+          </li>
+        </ul>
+        <span id="alreadyUser" class="text-light font-weight-bold">Already a user? Go</span>&nbsp&nbsp;
+        <a id="loginButton" onclick="loginPage()" class="btn btn-dark text-light rounded-pill my-2 my-sm-0 font-weight-bold" role="button">Log in</a>
+        <a id="logoutButton" onclick="logout()" class="btn btn-danger text-light rounded-pill my-2 my-sm-0 font-weight-bold" role="button">Log out</a>
+      </div>
+    </nav>
+
+    <div id="home-before-login">
+      <div id="exampleTodo" class="my-5 mx-5">
+        <div class="row">
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title font-weight-bold">Project Assignment Part 1</h5>
+                <a href="javascript: void(0);" onClick="toggle('q1')">Click to see your to-do!</a><br>
+                <p id="q1" style="display:none;">Must build RESTful API with Social Login. Don't forget Third API for features.
+                And also don't forget about the HTML and Jquery also ajax. Booststrap will help you a lot!</p>
+                <span class="font-weight-bold"><i class="fa fa-hourglass-half"></i> Wed 17 August 2020</span>
+                <br><span class="font-weight-bold"><i class="fa fa-check-square-o"></i> Status: Pending</span>
+                <br><br><a href="#" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-body">
+                <h5 class="card-title font-weight-bold">Cat's Duty</h5>
+                <a href="javascript: void(0);" onClick="toggle('q2')">Click to see your to-do!</a><br>
+                <p id="q2" style="display:none;">Cleaning Meng Meng's poop, bath Meng Meng, don't forget to buy litter and food for stocks.</p>
+                <span class="font-weight-bold"><i class="fa fa-hourglass-half"></i> Wed 18 August 2020</span>
+                <br><span class="font-weight-bold"><i class="fa fa-check-square-o"></i> Status: On Progress</span>
+                <br><br><a class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                <a href="#" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+      <div class="text-center">
+        <h1 class="font-weight-bold">Do you want to organize your plan just like that?</h1>
+        <h2>Go register yourself here.</h2>
+        <a onclick="registerPage()" role="button" class="mt-2 btn btn-secondary btn-lg text-light rounded-pill font-weight-bold">Register</a>
+      </div>
+    </div>
+
+    <div id="loginForm">
+      <div class="card bg-light mx-auto my-5" style="max-width: 30rem;">
+        <h4 class="card-header bg-dark text-center text-light font-weight-bold">Login Page</h4>
+        <div class="card-body">
+          <div id="alertLogin"></div>
+          <form onsubmit="loginProcess(event)">
+            <div class="form-group">
+              <label for="emailLogin">Email address</label>
+              <input type="email" class="form-control" placeholder="name@example.com" id="emailLogin">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="passwordLogin">Password</label>
+              <input type="password" placeholder="********" class="form-control" id="passwordLogin">
+            </div>
+            <button type="submit" class="btn btn-primary rounded-pill font-weight-bold">Log in</button>
+          </form>
+          <br>
+          <span class="font-weight-bold">or:</span>
+          <div class="mt-2 g-signin2" data-onsuccess="onSignIn"></div><br>
+          <span>Don't have account? Register yourself here <button class="btn btn-outline-secondary btn-sm rounded-pill font-weight-bold" onclick="registerPage()">Register</button></span><br>
+        </div>
+      </div>
+    </div>
+
+    <div id="registerForm">
+      <div class="card bg-light mx-auto my-5" style="max-width: 30rem;">
+        <h4 class="card-header bg-secondary text-center text-light font-weight-bold">Register Page</h4>
+        <div class="card-body">
+          <div id="alertRegister"></div>
+          <form onsubmit="registerProcess(event)">
+            <div class="form-group">
+              <label for="emailRegister">Email address</label>
+              <input type="email" class="form-control" placeholder="name@example.com" id="emailRegister">
+              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+            </div>
+            <div class="form-group">
+              <label for="passwordRegister">Password</label>
+              <input type="password" placeholder="********" class="form-control" id="passwordRegister">
+            </div>
+            <button type="submit" class="btn btn-primary rounded-pill font-weight-bold">Register</button>
+          </form>
+          <br>
+          <span>Already have an account? <button class="btn btn-outline-dark btn-sm rounded-pill font-weight-bold" onclick="loginPage()">Log in</button></span><br>
+        </div>
+      </div>
+    </div>
+
+    <div id="home-after-login" class="my-5">
+      <div id="qotd" class="text-center mx-5">
+      </div><br>
+      <h1 class="text-center font-weight-bold">My To-do list!</h1>
+      <br>
+      <div id="todoEmpty"></div>
+      <div id="exampleTodo" class="my-3 mx-5">
+        <div id="alertDelete"></div>
+        <div id="todoList" class="row">
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal fade" data-backdrop="static" data-keyboard="false" id="form-add" tabindex="-1" role="dialog" aria-labelledby="formAdd" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title font-weight-bold" id="formAdd">Add To-do</h3>
+            <button onclick="resetFormAdd()" type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="alertAdd"></div>
+            <form onsubmit="addTodo(event)">
+              <div class="form-group">
+                <label for="titleAdd">Title</label>
+                <input type="text" class="form-control" id="titleAdd" placeholder="e.g: MengMeng's Duty">
+              </div>
+              <div class="form-group">
+                <label for="descriptionAdd">Description</label>
+                <textarea class="form-control" id="descriptionAdd" rows="3" placeholder="e.g: cleaning poop and bath MengMeng"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="dueDateAdd">Due Date</label>
+                <input type="date" class="form-control" id="dueDateAdd">
+              </div>
+              <div class="form-group">
+                <label for="statusAdd">Status</label>
+                <select class="form-control" id="statusAdd">
+                  <option value="select" selected disabled>--choose--</option>
+                  <option value="Done">Done</option>
+                  <option value="On Progress">On Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-warning btn-sm font-weight-bold rounded-pill">Add To-do</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" onclick="resetFormAdd()" class="btn btn-secondary font-weight-bold rounded-pill" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="form-edit" tabindex="-1" role="dialog" aria-labelledby="formAdd" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="modal-title font-weight-bold" id="formEdit">Edit To-do</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div id="alertEdit"></div>
+            <form onsubmit="editTodo(event)">
+              <div class="form-group">
+                <label for="titleEdit">Title</label>
+                <input type="text" class="form-control" id="titleEdit">
+              </div>
+              <div class="form-group">
+                <label for="descriptionEdit">Description</label>
+                <textarea class="form-control" id="descriptionEdit" rows="3"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="dueDateEdit">Due Date</label>
+                <input type="date" class="form-control" id="dueDateEdit">
+              </div>
+              <div class="form-group">
+                <label for="statusEdit">Status</label>
+                <select class="form-control" id="statusEdit">
+                  <option value="select" selected disabled>--choose--</option>
+                  <option value="Done">Done</option>
+                  <option value="On Progress">On Progress</option>
+                  <option value="Pending">Pending</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-warning btn-sm rounded-pill font-weight-bold">Update To-do</button>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary rounded-pill font-weight-bold" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="holidayTable" class="my-5 mx-5">
+      <h1 class="text-center my-4 mx-3 font-weight-bold">Holiday 2020</h1>
+      <a role="button" class="btn btn-dark btn-md text-light rounded-pill font-weight-bold" onclick="homeAfterLogin()"><i class="fa  fa-arrow-circle-left"></i> Back to To-do List</a>
+      <br><br>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">Date</th>
+            <th scope="col">Holiday</th>
+            <th scope="col">Description</th>
+            <th scope="col">Type</th>
+          </tr>
+        </thead>
+        <tbody class="bg-light" id="bodyHoliday">
+        </tbody>
+      </table>
+    </div>
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://apis.google.com/js/platform.js" async defer></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
-    <script src="main.js"></script>    
-</body>
+    <script src="main.js"></script> 
+  </body>
 </html>

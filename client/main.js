@@ -1,103 +1,109 @@
+function toggle(obj) {
+    var obj = document.getElementById(obj);
+    console.log(obj)
+    if (obj.style.display == "block") obj.style.display = "none";
+    else obj.style.display = "block";
+}
 
-$(document).ready(function() {
-
-    if(localStorage.token) {
-        listTodo()
-        $(`#navbar`).show()
-        $(`#todo`).show()
-        $(`#homepage`).hide()
-        $(`#form-login`).hide()
-        $(`#form-register`).hide()
-        $(`#form-add-todo`).hide()
-        $(`#login-button`).hide()
-        $(`#form-edit-todo`).hide()
+$(document).ready(() => {
+    // loginPage()
+    // registerPage()
+    if (localStorage.access_token) {
+        homeAfterLogin()
+        showTodo()
+        calendar()
     } else {
-        $(`#homepage`).show()
-        $(`#navbar`).show()
-        $(`#logout-button`).hide()
-        $(`#todo`).hide()
-        $(`#form-login`).hide()
-        $(`#form-register`).hide()
-        $(`#form-add-todo`).hide()
-        $(`#form-edit-todo`).hide()
+        homeBeforeLogin()
     }
-
 })
 
-function listPage() {
-    $(`#form-add-todo`).hide()
-    $(`#form-edit-todo`).hide()
-    $(`#todo`).show()
-}   
-
-function addListForm() {
-    $(`#form-add-todo`).show()
-    $(`#todo`).hide()
-}
-
-function formLogin(event) {
-    event.preventDefault()
-    $(`#homepage`).hide()
-    $(`#form-register`).hide()
-    $(`#form-login`).show()
-}
-
-function formRegister(event) {
-    event.preventDefault()
-    $(`#homepage`).hide()
-    $(`#form-login`).hide()
-    $(`#form-register`).show()
-}
-
-function logOut() {
-    signOut()
+function logout() {
     localStorage.clear()
-    $(`#homepage`).show()
-    $(`#todo`).hide()
-    $(`#login-button`).show()
-    $(`#logout-button`).hide()
-} 
-
-function addUser(event) {
-    event.preventDefault()
-    const email = $(`#registerEmail`).val()
-    const password = $(`#registerPassword`).val()
-    $(`#alertRegister`).empty()
-    $.ajax({
-        method: `POST`,
-        url: `http://localhost:3000/users/register`,
-        data: {
-            email: email,
-            password: password
-        }
-    })
-    .done((result) => {
-        $(`#form-login`).show()
-        $(`#form-register`).hide()
-    })
-    .fail((err) => {
-        let errors = err.responseJSON.message
-        errors.forEach(element => {
-            $(`#alertRegister`).append(`
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                ${element}        
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>`)    
-        });
-    })
-    .always( () => {
-        console.log(`tes`)
-        $(`#registerEmail`).val(``)
-        $(`#registerPassword`).val(``)
-    })
+    homeBeforeLogin()
+    signOut()
 }
 
-function logIn(event) {
+function holiday() {
+    $(`#holidayTable`).show()
+    $(`#buttonAdd`).show()
+    $(`#logoutButton`).show()
+    $(`#loginButton`).hide()
+    $(`#home-before-login`).hide()
+    $(`#home-after-login`).hide()
+    $(`#loginForm`).hide()
+    $(`#registerForm`).hide()
+    $(`#alreadyUser`).hide()
+    $(`#buttonHoliday`).show()
+}
+
+function resetFormAdd() {
+    $(`#titleAdd`).val(``),
+    $(`#descriptionAdd`).val(``),
+    $(`#statusAdd`).val(``),
+    $(`#dueDateAdd`).val(`select`),
+    $(`#alertAdd`).empty()
+}
+
+function homeBeforeLogin() {
+    $(`#buttonAdd`).hide()
+    $(`#logoutButton`).hide()
+    $(`#home-before-login`).show()
+    $(`#loginForm`).hide()
+    $(`#registerForm`).hide()
+    $(`#home-after-login`).hide()
+    $(`#loginButton`).show()
+    $(`#alreadyUser`).show()
+    $(`#holidayTable`).hide()
+    $(`#buttonHoliday`).hide()
+    
+}
+
+function homeAfterLogin() {
+    quotesOfDay()
+    $(`#buttonAdd`).show()
+    $(`#logoutButton`).show()
+    $(`#loginButton`).hide()
+    $(`#home-before-login`).hide()
+    $(`#home-after-login`).show()
+    $(`#loginForm`).hide()
+    $(`#registerForm`).hide()
+    $(`#alreadyUser`).hide()
+    $(`#holidayTable`).hide()
+    $(`#buttonHoliday`).show()
+}
+
+function loginPage() {
+    $(`#loginForm`).show()
+    $(`#buttonAdd`).hide()
+    $(`#logoutButton`).hide()
+    $(`#home-before-login`).hide()
+    $(`#registerForm`).hide()
+    $(`#home-after-login`).hide()
+    $(`#loginButton`).show()
+    $(`#alreadyUser`).show()
+    $(`#emailLogin`).val(``)
+    $(`#passwordLogin`).val(``)
+    $(`#alertLogin`).empty()
+}
+
+function registerPage() {
+    $(`#loginForm`).hide()
+    $(`#buttonAdd`).hide()
+    $(`#logoutButton`).hide()
+    $(`#home-before-login`).hide()
+    $(`#registerForm`).show()
+    $(`#home-after-login`).hide()
+    $(`#loginButton`).show()
+    $(`#alreadyUser`).show()
+    $(`#emailRegister`).val(``)
+    $(`#passwordRegister`).val(``)
+    $(`#alertRegister`).empty()
+}
+
+function loginProcess(event) {
     event.preventDefault()
-    const email = $(`#loginEmail`).val()
-    const password = $(`#loginPassword`).val()
+    const email = $(`#emailLogin`).val()
+    const password = $(`#passwordLogin`).val()
     $(`#alertLogin`).empty()
     $.ajax({
         method: `POST`,
@@ -108,14 +114,13 @@ function logIn(event) {
         }
     })
     .done((result) => {
-        localStorage.token = result.access_token
-        listTodo()
-        $(`#form-login`).hide()
-        $(`#todo`).show()
-        $(`#login-button`).hide()
-        $(`#logout-button`).show()
+        localStorage.access_token = result.access_token
+        // homeAfterLogin()
+        showTodo()
+        // quotesOfDay()
     })
     .fail((err) => {
+        // console.log(err)
         $(`#alertLogin`).append(`
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             ${err.responseJSON.message}        
@@ -125,44 +130,99 @@ function logIn(event) {
         </div>`)
     })
     .always( () => {
-        console.log(`tes`)
-        $(`#loginEmail`).val(``)
-        $(`#loginPassword`).val(``)
+        $(`#emailLogin`).val(``)
+        $(`#passwordLogin`).val(``)
     })
 }
 
-function listTodo() {
+function registerProcess(event) {
+    event.preventDefault()
+    const email = $(`#emailRegister`).val()
+    const password = $(`#passwordRegister`).val()
+    $(`#alertRegister`).empty()
+    $.ajax({
+        method: `POST`,
+        url: `http://localhost:3000/users/register`,
+        data: {
+            email: email,
+            password: password
+        }
+    })
+    .done((result) => {
+        $(`#alertRegister`).append(`
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Successfully create an account! Proceed to login.      
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`)    
+    })
+    .fail((err) => {
+        // console.log(err)
+        if (Array.isArray(err.responseJSON.message)) {
+            let errors = err.responseJSON.message
+            errors.forEach(element => {
+                $(`#alertRegister`).append(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${element}        
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>`)    
+            });
+        } else {
+            $(`#alertRegister`).append(`
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    ${err.responseJSON.message}       
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>`)    
+        }
+    })
+    .always( () => {
+        $(`#emailRegister`).val(``)
+        $(`#passwordRegister`).val(``)
+    })
+}
+
+function showTodo() {
+    $(`#todoEmpty`).empty()
     $.ajax({
         method: `GET`,
         url: `http://localhost:3000/todos`,
         headers: {
-            access_token: localStorage.token    
+            access_token: localStorage.access_token
         }
     })
     .done((result) => {
-        $(`#todo-page`).empty()
+        // console.log(result)
+        $(`#todoList`).empty()
         if (result.length === 0) {
-            $(`#todo-page`).append(
-                `<h2 style="text-align: center;">You haven't done anything yet. &#128542</h2>`
+            $(`#todoEmpty`).append(
+                `<h2 class="text-center">You haven't done anything yet. &#128542</h2>`
             )
         } else {
+            let counter = 1
             result.forEach(el => {
-                $(`#todo-page`).append(
+                $(`#todoList`).append(
                     `
-                    <div id="todo-table" class="card my-3">
-                        <div class="card-header bg-success text-light font-weight-bold">
-                        <h5><b>${el.title}</b></h5>
-                        </div>
-                        <div class="card-body bg-light">
-                        <h6 class="card-title">"${el.description}"</h6>
-                        <p class="card-text"><b>Status:</b>  ${el.status}</p>
-                        <p class="card-text"><b>Due Date:</b>  ${new Date(el.due_date).toDateString()}</p>
-                        <a class="btn btn-warning" onclick="editTodoForm(${el.id})">Edit</a>&nbsp
-                        <a class="btn btn-danger text-light" onclick="deleteTodo(${el.id})">Delete</a>
+                    <div class="col-sm-6 my-2">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title font-weight-bold">${el.title}</h5>
+                                <a href="javascript: void(0);" onClick="toggle('ex${counter}')">Click to see your to-do!</a><br>
+                                <p id="ex${counter}" style="display:none;">${el.description}</p>
+                                <span class="font-weight-bold"><i class="fa fa-hourglass-half"></i> ${new Date(el.due_date).toDateString()}</span>
+                                <br><span class="font-weight-bold"><i class="fa fa-check-square-o"></i> Status: ${el.status}</span>
+                                <br><br><a data-toggle="modal" data-target="#form-edit" onclick="editFormTodo(${el.id})" role="button" class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Edit</a>
+                                <a href="#" onclick="deleteTodo(${el.id})" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Delete</a>
+                            </div>
                         </div>
                     </div>
                     `
-                )
+                    )
+                counter++
             })
         }
     })
@@ -170,7 +230,6 @@ function listTodo() {
         console.log(err)
     })
     .always(() => {
-        console.log(`tes`)
     })
 }
 
@@ -181,21 +240,27 @@ function addTodo(event) {
         method: `POST`,
         url: `http://localhost:3000/todos`,
         data: {
-            title: $(`#Title`).val(),
-            description: $(`#Description`).val(),
-            status: $(`#Status`).val(),
-            due_date: $(`#due_date`).val()
+            title: $(`#titleAdd`).val(),
+            description: $(`#descriptionAdd`).val(),
+            status: $(`#statusAdd`).val(),
+            due_date: $(`#dueDateAdd`).val()
         },
         headers: {
-            access_token: localStorage.token    
+            access_token: localStorage.access_token    
         }
     })
     .done((result) => {
-        listTodo()
-        $(`#todo`).show()
-        $(`#form-add-todo`).hide()
+        showTodo()
+        $(`#alertAdd`).append(`
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Success adding new To-do!        
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`)    
     })
     .fail((err) => {
+        // console.log(err)
         let errors = err.responseJSON.message
         errors.forEach(element => {
             $(`#alertAdd`).append(`
@@ -208,55 +273,61 @@ function addTodo(event) {
         });
     })
     .always(() => {
-        $(`#Title`).val(``),
-        $(`#Description`).val(``),
-        $(`#Status`).val(``),
-        $(`#due_date`).val(``)
+        $(`#titleAdd`).val(``),
+        $(`#descriptionAdd`).val(``),
+        $(`#statusAdd`).val(``),
+        $(`#dueDateAdd`).val(`select`)
     })
 }
 
 function deleteTodo(params) {
+    $(`#alertDelete`).empty()
     $.ajax({
         method: `DELETE`,
         url: `http://localhost:3000/todos/${params}`,
         headers: {
-            access_token: localStorage.token    
+            access_token: localStorage.access_token    
         }
     })
 
     .done((result) => {
-        listTodo()
-        $(`#todo`).show()
+        // console.log(result)
+        $(`#alertDelete`).append(`
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    Successfully delete To-do: "${result.title}"!        
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>`)    
+        showTodo()
     })
     .fail((err) => {
         console.log(err)
     })
     .always(() => {
-        console.log(`tes3`)
     })
 }
 let id;
-function editTodoForm(params) {
+function editFormTodo(params) {
+    $(`#alertEdit`).empty()
     $.ajax({
         method: `GET`,
         url: `http://localhost:3000/todos/${params}`,
         headers: {
-            access_token: localStorage.token    
+            access_token: localStorage.access_token    
         }
     })
     .done((result) => {
-        $(`#form-edit-todo`).show()
-        $(`#todo`).hide()
         id = result.id
         let due_date = new Date(result.due_date) 
         let day = due_date.getDate() > 9 ? due_date.getDate() : `0${due_date.getDate()}`
         let month = due_date.getMonth() + 1 > 9 ? due_date.getMonth() : `0${due_date.getMonth()+1}`
         let year = due_date.getFullYear()
         due_date = `${year}-${month}-${day}`
-        $(`#title`).val(result.title),
-        $(`#description`).val(result.description),
-        $(`#status`).val(result.status),
-        $(`#Due_date`).val(due_date)
+        $(`#titleEdit`).val(result.title),
+        $(`#descriptionEdit`).val(result.description),
+        $(`#statusEdit`).val(result.status),
+        $(`#dueDateEdit`).val(due_date)
     })
     .fail((err) => {
         console.log(err)
@@ -272,19 +343,24 @@ function editTodo(event) {
         method: `PUT`,
         url: `http://localhost:3000/todos/${id}`,
         data: {
-            title: $(`#title`).val(),
-            description: $(`#description`).val(),
-            status: $(`#status`).val(),
-            due_date: $(`#Due_date`).val()
+            title: $(`#titleEdit`).val(),
+            description: $(`#descriptionEdit`).val(),
+            status: $(`#statusEdit`).val(),
+            due_date: $(`#dueDateEdit`).val()
         },
         headers: {
-            access_token: localStorage.token    
+            access_token: localStorage.access_token    
         }
     })
     .done((result) => {
-        listTodo()
-        $(`#todo`).show()
-        $(`#form-edit-todo`).hide()
+       showTodo()
+       $(`#alertEdit`).append(`
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                Successfully update To-do!        
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>`)    
     })
     .fail((err) => {
         let errors = err.responseJSON.message
@@ -302,6 +378,32 @@ function editTodo(event) {
     })
 }
 
+function quotesOfDay() {
+    $(`#qotd`).empty()
+    $.ajax({
+        method: `GET`,
+        url: `http://localhost:3000/quotes`,
+        headers: {
+            access_token: localStorage.access_token    
+        }
+    })
+    .done((result) => {
+        // console.log(result.data)
+        $(`#qotd`).append(
+            `
+            <h5>${result.data.body}</h5>
+            <footer class="blockquote-footer">${result.data.author}</cite></footer>
+            `
+        )
+    })
+    .fail((err) => {
+        console.log(err)
+    })
+    .always(() => {
+
+    })
+}
+
 function onSignIn(googleUser) {
     let id_token = googleUser.getAuthResponse().id_token;
 
@@ -313,12 +415,9 @@ function onSignIn(googleUser) {
         }
     })
     .done((result) => {
-        localStorage.setItem(`token`, result.access_token)
-        listTodo()
-        $(`#form-login`).hide()
-        $(`#todo`).show()
-        $(`#logout-button`).show()
-        $(`#login-button`).hide()
+        localStorage.setItem(`access_token`, result.access_token)
+        homeAfterLogin()
+        showTodo()
     })
     .fail((err) => {
         console.log(err)
@@ -336,4 +435,30 @@ function signOut() {
 }
 
 
-  
+function calendar() {
+    $.ajax({
+        method: `GET`,
+        url: `http://localhost:3000/calendar`,
+        headers: {
+            access_token: localStorage.access_token    
+        }
+    })
+    .done((result) => {
+        // console.log(result)
+        result.forEach(element => {
+            $(`#bodyHoliday`).append(`
+            <tr>
+                <th scope="row">${new Date(element.date.iso).toDateString()}</th>
+                <td>${element.name}</td>
+                <td class="text-wrap" style="width:600px">${element.description}</td>
+                <td>${element.type[0]}</td>
+              </tr>
+            `)
+        });
+    })
+    .fail((err) => {
+        console.log(err)
+    })
+    .always(() => {
+    })
+}

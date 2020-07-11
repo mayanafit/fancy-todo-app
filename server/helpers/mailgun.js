@@ -3,10 +3,9 @@ var api_key = process.env.APIMAILGUN;
 const DOMAIN = process.env.DOMAINMAILGUN;
 const mg = mailgun({apiKey: api_key, domain: DOMAIN});
 
-
 async function sendEmail(receiver,subject,text) {
     const data = {
-        from: 'Todo-Fancy Team <mayanafitri25@gmail.com>',
+        from: 'Fancy To-do Team <mayanafitri25@gmail.com>',
         to: `${receiver}`,
         subject: subject,
         text: text
