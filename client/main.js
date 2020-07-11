@@ -115,7 +115,7 @@ function loginProcess(event) {
     })
     .done((result) => {
         localStorage.access_token = result.access_token
-        // homeAfterLogin()
+        homeAfterLogin()
         showTodo()
         // quotesOfDay()
     })
