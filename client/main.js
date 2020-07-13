@@ -34,6 +34,7 @@ function holiday() {
     $(`#registerForm`).hide()
     $(`#alreadyUser`).hide()
     $(`#buttonHoliday`).show()
+    calendar()
 }
 
 function resetFormAdd() {
