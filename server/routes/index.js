@@ -5,6 +5,9 @@ const {authentication} = require(`../middlewares/auth`)
 const QuotesController = require(`../controllers/QuotesController`)
 const CalendarController = require(`../controllers/CalendarController`)
 
+router.get(`/`, (req, res) => {
+    res.send(`Welcome to Fancy To-do!`)
+})
 router.use(`/users`, userRoutes)
 router.use(authentication)
 router.use(`/todos`, todoRoutes)
