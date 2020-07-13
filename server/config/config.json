@@ -5,5 +5,13 @@
     "database": "todoApp",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "production": {
+    "username": "retysxwkzgzbdc",
+    "password": "1d2cfb9011cc0080bc7ec9a87bcc8dc84a68d3649d793824964d5739cd56bd47",
+    "database": "d2qstv41opaf55",
+    "host": "ec2-18-214-119-135.compute-1.amazonaws.com",
+    "dialect": "postgres",
+    "port": 5432
   }
 }
