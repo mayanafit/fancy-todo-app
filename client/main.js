@@ -5,6 +5,8 @@ function toggle(obj) {
     else obj.style.display = "block";
 }
 
+let urlBase = `https://shrouded-hollows-55196.herokuapp.com/`
+
 $(document).ready(() => {
     // loginPage()
     // registerPage()
@@ -108,7 +110,7 @@ function loginProcess(event) {
     $(`#alertLogin`).empty()
     $.ajax({
         method: `POST`,
-        url: `http://localhost:3000/users/login`,
+        url: `${urlBase}users/login`,
         data: {
             email: email,
             password: password
@@ -143,7 +145,7 @@ function registerProcess(event) {
     $(`#alertRegister`).empty()
     $.ajax({
         method: `POST`,
-        url: `http://localhost:3000/users/register`,
+        url: `${urlBase}users/register`,
         data: {
             email: email,
             password: password
@@ -191,7 +193,7 @@ function showTodo() {
     $(`#todoEmpty`).empty()
     $.ajax({
         method: `GET`,
-        url: `http://localhost:3000/todos`,
+        url: `${urlBase}todos`,
         headers: {
             access_token: localStorage.access_token
         }
@@ -239,7 +241,7 @@ function addTodo(event) {
     $(`#alertAdd`).empty()
     $.ajax({
         method: `POST`,
-        url: `http://localhost:3000/todos`,
+        url: `${urlBase}todos`,
         data: {
             title: $(`#titleAdd`).val(),
             description: $(`#descriptionAdd`).val(),
@@ -285,7 +287,7 @@ function deleteTodo(params) {
     $(`#alertDelete`).empty()
     $.ajax({
         method: `DELETE`,
-        url: `http://localhost:3000/todos/${params}`,
+        url: `${urlBase}todos/${params}`,
         headers: {
             access_token: localStorage.access_token    
         }
@@ -313,7 +315,7 @@ function editFormTodo(params) {
     $(`#alertEdit`).empty()
     $.ajax({
         method: `GET`,
-        url: `http://localhost:3000/todos/${params}`,
+        url: `${urlBase}todos/${params}`,
         headers: {
             access_token: localStorage.access_token    
         }
@@ -342,7 +344,7 @@ function editTodo(event) {
     $(`#alertEdit`).empty()
     $.ajax({
         method: `PUT`,
-        url: `http://localhost:3000/todos/${id}`,
+        url: `${urlBase}todos/${id}`,
         data: {
             title: $(`#titleEdit`).val(),
             description: $(`#descriptionEdit`).val(),
@@ -383,7 +385,7 @@ function quotesOfDay() {
     $(`#qotd`).empty()
     $.ajax({
         method: `GET`,
-        url: `http://localhost:3000/quotes`,
+        url: `${urlBase}quotes`,
         headers: {
             access_token: localStorage.access_token    
         }
@@ -410,7 +412,7 @@ function onSignIn(googleUser) {
 
     $.ajax({
         method: `POST`,
-        url: `http://localhost:3000/users/login/google`,
+        url: `${urlBase}users/login/google`,
         data: {
             id_token
         }
@@ -439,7 +441,7 @@ function signOut() {
 function calendar() {
     $.ajax({
         method: `GET`,
-        url: `http://localhost:3000/calendar`,
+        url: `${urlBase}calendar`,
         headers: {
             access_token: localStorage.access_token    
         }
