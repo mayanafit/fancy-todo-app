@@ -10,7 +10,7 @@ stack server:
 5. JWT
 
 stack client:
-1. Boostrap
+1. Bootstrap
 2. Jquery-AJAX
 3. HTML&CSS
 
